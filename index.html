@@ -14,7 +14,7 @@
       color: #f8fafc; padding: 16px;
     }
     .glass-card {
-      width: 100%; max-width: 430px; padding: 28px 24px; border-radius: 22px;
+      width: 100%; max-width: 440px; padding: 28px 24px; border-radius: 22px;
       background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255,255,255,0.18);
@@ -59,11 +59,11 @@
     .btn-danger:hover { background: rgba(248, 113, 113, 0.12); }
     button:disabled { opacity: 0.45; cursor: not-allowed; }
     .msg {
-      margin-top: 16px; padding: 12px 14px; border-radius: 12px; font-size: 13.5px;
-      display: none; line-height: 1.5; word-break: break-word;
+      margin-top: 16px; padding: 13px 15px; border-radius: 12px; font-size: 13.5px;
+      display: none; line-height: 1.65; word-break: break-word; white-space: pre-line;
     }
-    .msg.ok { display: block; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; }
-    .msg.err { display: block; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.35); color: #fda4af; }
+    .msg.ok { display: block; background: rgba(16, 185, 129, 0.14); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; }
+    .msg.err { display: block; background: rgba(244, 63, 94, 0.14); border: 1px solid rgba(244, 63, 94, 0.35); color: #fda4af; }
     .msg.info { display: block; background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.32); color: #7dd3fc; }
   </style>
 </head>
@@ -114,10 +114,10 @@
       }
 
       setButtonsDisabled(true);
-      showMsg("Đang kết nối với hệ thống...", "info");
+      showMsg("Đang kết nối với hệ thống TENSA...", "info");
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 20000);
+      const timeoutId = setTimeout(() => controller.abort(), 25000);
 
       try {
         const res = await fetch(MY_BACKEND_URL, {
@@ -131,14 +131,14 @@
         if (data.ok) {
           if (action === "register") localStorage.setItem("my_auto_tsa_sbd", sbd);
           if (action === "unregister") localStorage.removeItem("my_auto_tsa_sbd");
-          const prefix = data.name ? `Xin chào ${data.name}! ` : "";
+          const prefix = data.name ? `Xin chào ${data.name}!\n` : "";
           showMsg(prefix + data.msg, "ok");
         } else {
           showMsg(data.msg || "Có lỗi xảy ra!", "err");
         }
       } catch (e) {
         if (e.name === "AbortError") {
-          showMsg("Kết nối quá thời gian (20s). Vui lòng thử lại!", "err");
+          showMsg("Kết nối quá thời gian (25s). Vui lòng thử lại!", "err");
         } else {
           showMsg("Không kết nối được server. Kiểm tra mạng hoặc quyền Deploy (Anyone)!", "err");
         }
